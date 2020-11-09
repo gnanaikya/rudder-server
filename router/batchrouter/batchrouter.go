@@ -135,9 +135,9 @@ type ErrorResponseT struct {
 func updateDestStatusStats(id string, count int, isSuccess bool) {
 	var destStatsD stats.RudderStats
 	if isSuccess {
-		destStatsD = stats.NewBatchDestStat("batch_router.dest_successful_events", stats.CountType, id)
+		destStatsD = stats.NewTaggedStat("batch_router.dest_successful_events", stats.CountType, map[string]string{"destID": id})
 	} else {
-		destStatsD = stats.NewBatchDestStat("batch_router.dest_failed_attempts", stats.CountType, id)
+		destStatsD = stats.NewTaggedStat("batch_router.dest_failed_attempts", stats.CountType, map[string]string{"destID": id})
 	}
 	destStatsD.Count(count)
 }
